@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>冰淇淋商店</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="apple-touch-icon" href="assets/apple-touch-icon-precomposed.png" />
+	
+	<script type="text/javascript" src="game.min.js"></script>
+
+	<style type="text/css">
+		body {
+			background-color: #000;
+			margin: 0;
+			padding: 0;
+		}
+
+		* {
+			user-select: none;
+		}
+
+		* {
+			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			-webkit-touch-callout: none;
+		}
+		
+		#wrapper {
+			position: absolute;
+			overflow: hidden;
+			left: 0;
+			top: 0;
+			z-index: 0;
+			width: 10000px;
+		}
+
+		#gameCanvas {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			image-rendering: optimizeSpeed;
+			-ms-interpolation-mode: nearest-neighbor;
+			-webkit-optimize-contrast;
+			z-index: 100;
+		}
+
+		#swipeToFullscreen {
+			position:absolute;
+			top:0px;
+			right: 0px;
+			display: none;
+			background-color: #00000;
+			width: 150px;
+			height: 350px;
+			min-height: 350px;
+			background-image: url('preloaderHD/swipe.png');
+			background-repeat: no-repeat;
+
+		}
+
+	</style>
+</head>
+<body>
+	
+	<div id="wrapper"></div>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : "  http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_30098529'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol  + "w.cnzz.com/c.php%3Fid%3D30098529' type='text/javascript'%3E%3C/script%3E"));</script>
+<script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : "  http://");document.write(unescape("%3Cscript src='" +_bdhmProtocol + "hm.baidu.com/h.js %3F2330ee0a702a2807b28bfe00eaeb5bbf' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>
