@@ -1,0 +1,22 @@
+﻿{
+    "Paris" : "Paris",
+    "Moscow":"Moscow",
+    "London":"London",
+    "NewYork":"NewYork",
+    "WoodenCue" : "Wooden Cue",
+    "MapleCue" :  "Maple Cue",
+    "OakenCue" :  "Oaken Cue",
+    "Venus" :  "Venus",
+    "Wisdom" :  "Wisdom",
+    "AzureCue" :  "Azure Cue",
+    "Devil" :  "Devil",
+    "RoyalCue" :  "Royal Cue",
+    "Nature" :  "Nature",
+    "yourturn":"Your turn",
+    "computer":"computer",
+    "ShotsMade" : "Shots Made",
+    "BallsPotted" : "Balls Potted",
+    "Accuray" : "Accuray",
+    "LongestStreak" : "Longest Streak",
+    "foul":"Foul"
+}
