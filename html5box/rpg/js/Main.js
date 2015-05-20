@@ -55,13 +55,13 @@ function main(){
 	imgData.push({type:"js",path:"./js/Talk.js"});
 	imgData.push({type:"js",path:"./js/Character.js"});
 	imgData.push({type:"js",path:"./js/script.js"});
-	imgData.push({name:"map",path:"./image/map.jpg"});
+	imgData.push({name:"map",path:"./image/map.png"});
 	imgData.push({name:"mingren",path:"./image/p0.png"});
 	imgData.push({name:"npc1",path:"./image/p1.png"});
 	imgData.push({name:"e1",path:"./image/e1.png"});
 	imgData.push({name:"e2",path:"./image/e2.png"});
-	imgData.push({name:"m",path:"./image/m.jpg"});
-	imgData.push({name:"n",path:"./image/n.jpg"});
+	imgData.push({name:"m",path:"./image/m.gif"});
+	imgData.push({name:"n",path:"./image/n.gif"});
 	imgData.push({name:"talk",path:"./image/back.png"});
 	
 	loadingLayer = new LoadingSample3();
@@ -208,6 +208,7 @@ function addChara(){
 	}
 }
 function ondown(event){
+	console.log("clicked");
 	//根据点击位置，判断移动方向
 	if(event.offsetX >= ctrlLayer.x + 40 && event.offsetX <= ctrlLayer.x+80){
 		if(event.offsetY >= ctrlLayer.y && event.offsetY <= ctrlLayer.y+40){
