@@ -3,7 +3,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<style type="text/css">
-		body, html,#allmap {width: 800px;height: 400px;margin:0;font-family:"微软雅黑";}
+		body, html,#allmap {width: 100%;height:200px;margin:0;font-family:"微软雅黑";}
 		input{
     width:50px;
 }
@@ -12,10 +12,11 @@
 	<title>计算驾车时间与距离</title>
 </head>
 <body>
+    输入要分析的地址：<input id="keyword" type="textbox" value="">
 	<div id="allmap"></div>
 	<div>
-	  <textarea id="input" style="width:200px; height:300px">123</textarea>
-	  <textarea id="output" style="width:200px; height:300px">456</textarea>
+	  <textarea id="input" style="width:200px; height:300px"></textarea>
+	  <textarea id="output" style="width:200px; height:300px"></textarea>
 	  <button onclick="codeAddress()">search</button>
 	</div>
 </body>
@@ -67,7 +68,8 @@ function searchKeyword(keyword) {
 	var pts= new Array();
 	pts=keyword.split(",");
 	var mypt=new BMap.Point(pts[0],pts[1]);
-	transit.search("北京市十里堡镇", mypt);
+	var kw=document.getElementById("keyword").value;
+	transit.search(kw, mypt);
 	
 }
 	
