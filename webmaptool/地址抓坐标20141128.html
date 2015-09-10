@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>腾讯地图</title>
+<style type="text/css">
+*{
+    margin:0px;
+    padding:0px;
+}
+body, button, input, select, textarea {
+    font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+}
+p{
+    width:603px;
+    padding-top:3px;
+    margin-top:10px;
+    overflow:hidden;
+}
+input{
+	width:300px;
+}
+</style>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=1"></script>
+<script>
+var geocoder,map,marker = null;
+var init = function() {
+    var center = new soso.maps.LatLng(39.916527,116.397128);//创建地图中心
+    map = new soso.maps.Map(document.getElementById('container'),{ //创建一个地图
+        center: center,
+        zoomLevel: 15
+    });
+    geocoder = new soso.maps.Geocoder();
+}
+
+function codeAddress() {
+	var strs= new Array();
+	strs=document.getElementById("input").value.split("\n");
+	var funcs = [];
+	
+		
+	for(i=0;i<strs.length;i++){ 
+		(function(index){//index为循环中传入的参数 
+			funcs.push(function(){ 
+				var address = strs[index];
+				geocoder.geocode({'address': address}, function(results, status) {
+				if (status == soso.maps.GeocoderStatus.OK) {
+				document.getElementById("output").value=document.getElementById("output").value+strs[index]+","+results.location+"\n";
+			 
+				} else {
+					document.getElementById("output").value=document.getElementById("output").value+strs[index]+","+"-"+"\n";
+				}
+				})
+			//这里是需要调用方法，可以为异步方法 
+			}); 
+		})(i); 
+	}
+	
+	for(j=0;j<strs.length;j++)
+    {
+        funcs[j]();
+    }
+
+	
+}
+</script>
+</head>
+<body onLoad="init()">
+<div>
+  <textarea id="input" style="width:200px; height:300px"></textarea>
+  <textarea id="output" style="width:200px; height:300px"></textarea>
+  <button onClick="codeAddress()">search</button>
+</div>
+<div style="width:603px;height:300px" id="container"></div>
+<p>输入地址，点击search进行地址解释。
+Webservice日调用量：10万次 / Key,并发数：10次 / IP / 秒 ,超过日调用量和并发数的网站，可以通过以下途径解决：对于多频次的相同请求，可通过缓存结果，并定时访问更新的方式，减少对在线服务调用的依赖。</p>
+</body>
+</html>

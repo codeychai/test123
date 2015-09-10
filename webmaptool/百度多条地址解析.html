@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 400px;height: 200px;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=t2GSBkEnBVrEGcsgZwG0Aaut"></script>
+	<title>地址解析</title>
+</head>
+<body>
+	<div>
+  <textarea id="input" style="width:200px; height:300px"></textarea>
+  <textarea id="output" style="width:200px; height:300px"></textarea>
+  <button onClick="codeAddress()">search</button>
+</div>
+	<div id="allmap"></div>
+
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,12);
+	// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint("北京市海淀区上地10街", function(point){
+		if (point) {
+			map.centerAndZoom(point, 16);
+			map.addOverlay(new BMap.Marker(point));
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	}, "北京市");
+	//-------------codey added blew
+	function codeAddress() {
+		var strs= new Array();
+		strs=document.getElementById("input").value.split("\n");
+		var funcs = [];
+		
+			
+		for(i=0;i<strs.length;i++){ 
+			(function(index){//index为循环中传入的参数 
+				funcs.push(function(){ 
+					var address = strs[index];
+					myGeo.getPoint(strs[index], function(point){
+						if (point) {
+							document.getElementById("output").value=document.getElementById("output").value+strs[index]+","+point.lng+","+point.lat+"\n";
+						}else{
+							document.getElementById("output").value=document.getElementById("output").value+strs[index]+","+"-"+"\n";
+						}
+					}, "");
+					
+				//这里是需要调用方法，可以为异步方法 
+				}); 
+			})(i); 
+		}
+		
+		for(j=0;j<strs.length;j++)
+		{
+			funcs[j]();
+		}
+	}
+	
+</script>
