@@ -67,11 +67,13 @@ function codeAddress() {
 </head>
 <body onLoad="init()">
 <div>
-  <textarea id="input" style="width:200px; height:300px"></textarea>
+  <textarea id="input" style="width:200px; height:300px">在此输入地址，每行写一条地址</textarea>
   <textarea id="output" style="width:200px; height:300px"></textarea>
-  <button onClick="codeAddress()">search</button>
 </div>
-<div style="width:603px;height:300px" id="container"></div>
+<div style="margin:0 auto">
+	<button onClick="codeAddress()" style="width:200px; height:50px">search</button>
+</div>
+<div style="width:400px;height:200px" id="container"></div>
 <p>输入地址，点击search进行地址解释。
 Webservice日调用量：10万次 / Key,并发数：10次 / IP / 秒 ,超过日调用量和并发数的网站，可以通过以下途径解决：对于多频次的相同请求，可通过缓存结果，并定时访问更新的方式，减少对在线服务调用的依赖。</p>
 </body>
