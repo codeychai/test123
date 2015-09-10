@@ -5,7 +5,7 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
 body, html,#allmap {width: 100%;height: 100%; margin:0;font-family:"微软雅黑";}
-#l-map{height:200px;width:100%;}
+#l-map{height:300px;width:100%;}
 #r-result{width:100%;}
 </style>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=t2GSBkEnBVrEGcsgZwG0Aaut"></script>
@@ -13,14 +13,14 @@ body, html,#allmap {width: 100%;height: 100%; margin:0;font-family:"微软雅黑
 </head>
 <body>
 <div id="toolbar">
-	搜索关键词:<input id="keyword" type="textbox" value="" >
+	搜索关键词:<input id="keyword" type="textbox" value="" width=100px;>
 	城市名:<input id="region" type="textbox" value="">
 	pageIndex: <input id="pageIndex" type="textbox" value="0">
 	pageCapacity:<input id="pageCapacity" type="textbox" value="100">
 	<button onclick="searchKeyword()">search</button>
 </div>
 <div id="l-map"></div>
-<textarea id="r-result" style="width:100%; height:300px"></textarea>
+<textarea id="r-result" style="width:800px; height:300px"></textarea>
 <button onclick="shownext()">next</button>
 </body>
 </html>
