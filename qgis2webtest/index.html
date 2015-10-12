@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>qgis2web Leaflet webmap</title>
+    
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/label.css" />
+        <link rel="stylesheet" href="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.css" />    
+        <link rel="stylesheet" href="css/leaflet.draw.css" />
+        <link rel="stylesheet" href="css/leaflet.measurecontrol.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/label.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet.draw.js"></script>
+        <script src="js/leaflet.measurecontrol.js"></script>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    </head>
+    <body>
+        <div id="map"></div>
+        <script src="data/json_townpolygon.js"></script>
+        <script src="data/json_border.js"></script>
+        <script src="data/json_village.js"></script>
+        <script src="data/json_town.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            measureControl:true,
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[40.0176454505,116.754126968],[40.3823751222,117.536653497]]);
+        var hash = new L.Hash(map);
+        var additional_attrib = '<a href="https://github.com/tomchadwin/qgis2web" target ="_blank">qgis2web</a>';
+        var feature_group = new L.featureGroup([]);
+        var bounds_group = new L.featureGroup([]);
+        var raster_group = new L.LayerGroup([]);
+        var basemap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: additional_attrib + ' &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap.addTo(map);
+        var layerOrder = new Array();
+        function restackLayers() {
+            for (index = 0; index < layerOrder.length; index++) {
+                layerOrder[index].bringToFront();
+            }
+        }
+        map.on('overlayadd', restackLayers);
+        layerControl = L.control.layers({},{},{collapsed:false});
+        function pop_townpolygon(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){feature.closePopup()});
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Id</th><td>' + Autolinker.link(String(feature.properties['Id'])) + '</td></tr><tr><th scope="row">area</th><td>' + Autolinker.link(String(feature.properties['area'])) + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyletownpolygon(feature) {
+            return {
+                weight: 1.04,
+                color: '#000000',
+                fillColor: '#99c637',
+                dashArray: '',
+                opacity: 0.450980392157,
+                fillOpacity: 0.450980392157
+            };
+        }
+            var json_townpolygonJSON = new L.geoJson(json_townpolygon, {
+                onEachFeature: pop_townpolygon,
+                style: doStyletownpolygon
+            });
+            layerOrder[layerOrder.length] = json_townpolygonJSON;
+        layerOrder[layerOrder.length] = json_townpolygonJSON;
+        for (index = 0; index < layerOrder.length; index++) {
+            feature_group.removeLayer(layerOrder[index]); feature_group.addLayer(layerOrder[index]);
+        }
+        bounds_group.addLayer(json_townpolygonJSON);
+        feature_group.addLayer(json_townpolygonJSON);
+        function pop_border(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){feature.closePopup()});
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Id</th><td>' + Autolinker.link(String(feature.properties['Id'])) + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleborder(feature) {
+            return {
+                weight: 1.04,
+                color: '#5970a1',
+                dashArray: '',
+                opacity: 1.0
+            };
+        }
+            var json_borderJSON = new L.geoJson(json_border, {
+                onEachFeature: pop_border,
+                style: doStyleborder
+            });
+            layerOrder[layerOrder.length] = json_borderJSON;
+        layerOrder[layerOrder.length] = json_borderJSON;
+        for (index = 0; index < layerOrder.length; index++) {
+            feature_group.removeLayer(layerOrder[index]); feature_group.addLayer(layerOrder[index]);
+        }
+        bounds_group.addLayer(json_borderJSON);
+        feature_group.addLayer(json_borderJSON);
+        function pop_village(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){feature.closePopup()});
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Id</th><td>' + Autolinker.link(String(feature.properties['Id'])) + '</td></tr><tr><th scope="row">name</th><td>' + Autolinker.link(String(feature.properties['name'])) + '</td></tr><tr><th scope="row">type</th><td>' + Autolinker.link(String(feature.properties['type'])) + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStylevillage() {
+            return {
+                radius: 4.0,
+                fillColor: '#d40e9f',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayervillage(feature, latlng) {
+            return L.circleMarker(latlng, doStylevillage())
+        }
+        var json_villageJSON = new L.geoJson(json_village, {
+            onEachFeature: pop_village, 
+            pointToLayer: doPointToLayervillage
+            });
+        layerOrder[layerOrder.length] = json_villageJSON;
+        bounds_group.addLayer(json_villageJSON);
+        feature_group.addLayer(json_villageJSON);
+        function pop_town(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){feature.closePopup()});
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Id</th><td>' + Autolinker.link(String(feature.properties['Id'])) + '</td></tr><tr><th scope="row">name</th><td>' + Autolinker.link(String(feature.properties['name'])) + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyletown() {
+            return {
+                radius: 4.0,
+                fillColor: '#509533',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayertown(feature, latlng) {
+            return L.circleMarker(latlng, doStyletown())
+        }
+        var json_townJSON = new L.geoJson(json_town, {
+            onEachFeature: pop_town, 
+            pointToLayer: doPointToLayertown
+            });
+        layerOrder[layerOrder.length] = json_townJSON;
+        bounds_group.addLayer(json_townJSON);
+        feature_group.addLayer(json_townJSON);
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        var osmGeocoder = new L.Control.OSMGeocoder({
+            collapsed: false,
+            position: 'topright',
+            text: 'Search',
+        });
+        osmGeocoder.addTo(map);
+        var baseMaps = {
+            'OSM Standard': basemap
+        };
+            L.control.layers(baseMaps,{'<img src="legend/town.png" /> town': json_townJSON,'<img src="legend/village.png" /> village': json_villageJSON,'<img src="legend/border.png" /> border': json_borderJSON,'<img src="legend/townpolygon.png" /> town_polygon': json_townpolygonJSON},{collapsed:false}).addTo(map);
+        L.control.scale({options: {position: 'bottomleft',maxWidth: 100,metric: true,imperial: false,updateWhenIdle: false}}).addTo(map);
+    </script>
+</body>
+</html>
