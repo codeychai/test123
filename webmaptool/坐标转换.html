@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script type="text/javascript" src="wandergis.js"></script>
+	<title>坐标转换</title>
+</head>
+<body>
+	<div>
+  <textarea id="input" style="width:200px; height:300px"></textarea>
+  <textarea id="output" style="width:200px; height:300px"></textarea>
+  <select id="myselect">  
+	  <option value ="1">百度转国测局（火星）</option>  
+	  <option value ="2">百度转WGS84</option>  
+	  <option value="3">国测局（火星）转百度</option>  
+	  <option value="4">国测局（火星）转WGS84</option>  
+	  <option value="5">WGS84转百度</option>  
+	  <option value="6">WGS84转国测局（火星）</option>  
+  </select> 
+  <button onClick="codeAddress()">转换</button>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+	// 
+	
+	//-------------codey added 
+	function codeAddress() {
+		var strs= new Array();
+		strs=document.getElementById("input").value.split("\n");
+		var funcs = [];
+		//alert(document.getElementById("myselect").value);
+			
+		for(i=0;i<strs.length;i++){ 
+			(function(index){//index为循环中传入的参数 
+				funcs.push(function(){ 
+					var address = strs[index];
+					var pts= new Array();
+					pts=strs[index].split(",");
+					//alert(pts[0]);
+					switch(document.getElementById("myselect").value)
+					{
+						case "1":
+						  document.getElementById("output").value=document.getElementById("output").value+coordtransform.bd09togcj02(parseFloat(pts[0]),parseFloat(pts[1]))+"\n";
+						  break;
+						case "2":
+						  document.getElementById("output").value=document.getElementById("output").value+coordtransform.gcj02towgs84(coordtransform.bd09togcj02(parseFloat(pts[0]),parseFloat(pts[1]))[0],coordtransform.bd09togcj02(parseFloat(pts[0]),parseFloat(pts[1]))[1])+"\n";
+						  break;
+						case "3":
+						  document.getElementById("output").value=document.getElementById("output").value+coordtransform.gcj02tobd09(parseFloat(pts[0]),parseFloat(pts[1]))+"\n";
+						  break;
+						case "4":
+						  document.getElementById("output").value=document.getElementById("output").value+coordtransform.gcj02towgs84(parseFloat(pts[0]),parseFloat(pts[1]))+"\n";
+						  break;
+						case "5":
+						  document.getElementById("output").value=document.getElementById("output").value+coordtransform.gcj02tobd09(coordtransform.wgs84togcj02(parseFloat(pts[0]),parseFloat(pts[1]))[0],coordtransform.wgs84togcj02(parseFloat(pts[0]),parseFloat(pts[1]))[1])+"\n";
+						  break;
+						case "6":
+						  document.getElementById("output").value=document.getElementById("output").value+coordtransform.wgs84togcj02(parseFloat(pts[0]),parseFloat(pts[1]))+"\n";
+						  break;
+						default:
+						  document.getElementById("output").value=document.getElementById("output").value+"-"+"\n"
+					}
+					myGeo.getPoint(strs[index], function(point){
+						if (point) {
+							document.getElementById("output").value=document.getElementById("output").value+strs[index]+","+point.lng+","+point.lat+"\n";
+						}else{
+							document.getElementById("output").value=document.getElementById("output").value+strs[index]+","+"-"+"\n";
+						}
+					}, "");
+					
+				//这里是需要调用方法，可以为异步方法 
+				}); 
+			})(i); 
+		}
+		
+		for(j=0;j<strs.length;j++)
+		{
+			funcs[j]();
+		}
+	}
+	
+</script>
